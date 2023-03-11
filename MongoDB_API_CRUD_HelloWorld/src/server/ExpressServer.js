@@ -10,6 +10,7 @@ import { MongoClient, ObjectId } from "mongodb";
  */
 //mongodb+srv://monkey:3ClVr3J5HLsuu9w7@cluster0.cckieyd.mongodb.net
 let connectionstring = 'mongodb+srv://monkey:3ClVr3J5HLsuu9w7@cluster0.cckieyd.mongodb.net';
+connectionstring = "mongodb+srv://tanya:Molubirl_01@cluster0.lvm5st0.mongodb.net";
 //let connectionstring = 'mongodb://localhost:27017';
 
 class ExpressServer {
@@ -46,7 +47,7 @@ class ExpressServer {
     //   // next()
     // })
 
-    this.server.get('/dummycar', (req, res) => {
+    this.server.get('/', (req, res) => {
       const somecar = {
         "name": "Mach 5",
         "driver": "Speed Racer"
@@ -55,118 +56,6 @@ class ExpressServer {
       // next()
     })
 
-    this.server.get('/dummycarwithlodash', (req, res) => {
-      const somecar = {
-        "name": "Mach 5",
-        "driver": "Speed Racer",
-        "lodash": "yes"
-      }
-
-      const someEmptyString = lodash.stubString();
-      console.log(someEmptyString);
-
-      const getLodAshDriver = lodash.get(somecar, 'driver');
-      console.log(getLodAshDriver);
-
-      const getLodAshCompany = lodash.get(somecar, 'company', "default company");
-      console.log(getLodAshCompany);
-
-      const getLodAshCompany2 = lodash.get(somecar, 'company');
-      console.log(getLodAshCompany2);
-
-      const somejeep = {
-        "name": "Moutain Jeep",
-        "driver": "Duke Nukem",
-        "lodash": "yes"
-      }
-
-      console.log(somejeep);
-
-      //update a value
-
-      lodash.set(somejeep, 'driver', "Duke Nukema!!!")
-      lodash.set(somejeep, 'updated', "changed the name")
-
-      console.log(somejeep);
-
-      let responseObject = {
-        somecar: somecar,
-        someEmptyString: someEmptyString,
-        getLodAshDriver: getLodAshDriver,
-        getLodAshCompany: getLodAshCompany,
-        getLodAshCompany2: getLodAshCompany2,
-        somejeep: somejeep
-      }
-
-      res.send(responseObject)
-      // next()
-    })
-
-    // this.server.put('/user', (req, res)=> {
-    //   res.send('Got a PUT request at /user')
-    //   // next()
-    // })
-
-    // this.server.delete('/user', (req, res)=> {
-    //   res.send('Got a DELETE request at /user')
-    //   // next()
-    // })
-
-    // this.server.post('/', (req, res, next) => {
-    //   console.log(req);
-    //   // next()
-    //   });
-
-    // this.server.get('/', (req, res)=> {
-    //   res.send('Hello World from EXPRESS SERVER!')
-    //   // next()
-    // })
-
-    this.server.get('/', (req, res) => {
-      //display a simple form.
-      res.render("SampleForm");
-    })
-
-    this.server.post('/saveData', (req, res) => {
-      //log information sent through the form.
-      console.log(`Fullname : ${req.body.fullname}`);
-      console.log(`Email : ${req.body.email}`);
-
-      const PersonDetails = {
-        fullname: req.body.fullname,
-        email: req.body.email
-      }
-
-      res.render('FormDone', {
-        PersonDetails: PersonDetails
-      });
-    })
-
-    this.server.get('/SampleFormWithBS', (req, res) => {
-      //display a simple form.
-      res.render("pages/SampleForm");
-    })
-
-    this.server.post('/saveDataWithBS', (req, res) => {
-      //log information sent through the form.
-      console.log(`Fullname : ${req.body.fullname}`);
-      console.log(`Email : ${req.body.email}`);
-
-      const PersonDetails = {
-        fullname: req.body.fullname,
-        email: req.body.email
-      }
-
-      res.render('pages/FormDone', {
-        PersonDetails: PersonDetails
-      });
-    })
-
-    // about page
-    this.server.get('/about', function (req, res) {
-      res.render('pages/about');
-    });
-
     //here let's start putting some mongo db stuff
     this.server.get('/mongodb/helloworld', (req, res) => {
 
@@ -174,8 +63,8 @@ class ExpressServer {
         let cl = new MongoClient(connectionstring);
         try {
           await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
+          const dbs = cl.db("heroes");
+          const coll = dbs.collection("hero_names");
 
           const cur = coll.find({}, {});
 
@@ -201,18 +90,18 @@ class ExpressServer {
     })
 
     //add some super hero
-    this.server.get('/mongodb/addhero', (req, res) => {
+    this.server.get('/mongodb/addDrStrange', (req, res) => {
 
       async function run() {
         let cl = new MongoClient(connectionstring);
         try {
           await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
+          const dbs = cl.db("heroes");
+          const coll = dbs.collection("hero_powers");
 
           //const rest = await coll.insertOne({"quote":"This is my quote."});
           //db.heroes.insertOne({hero:"Joker",name:"Unknown"})
-          let resultOfDb = await coll.insertOne({ hero: "Joker", name: "Unknown" });
+          let resultOfDb = await coll.insertOne({ name: "Dr. Strange", power: "Sorcery"});
 
           console.log(resultOfDb);
           let responseObject = {
@@ -231,20 +120,20 @@ class ExpressServer {
     })
 
     //update a hero
-    this.server.get('/mongodb/updatehero', (req, res) => {
+    this.server.get('/mongodb/updateSpiderman', (req, res) => {
 
       async function run() {
         let cl = new MongoClient(connectionstring);
         try {
           await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
+          const dbs = cl.db("heroes");
+          const coll = dbs.collection("hero_powers");
 
           //const rest = await coll.insertOne({"quote":"This is my quote."});
           //db.heroes.insertOne({hero:"Joker",name:"Unknown"})
           let resultOfDb = await coll.updateOne(
-            { hero: "Catwoman" },
-            { $set: { name: "Selina Kyle" } }
+            { name: "Spiderman" },
+            { $set: { power: "Shoot webs" } }
           );
 
           console.log(resultOfDb);
@@ -264,47 +153,19 @@ class ExpressServer {
     })
 
     //add and delete hero
-    this.server.get('/mongodb/addherogreenlantern', (req, res) => {
 
-      async function run() {
-        let cl = new MongoClient(connectionstring);
-        try {
-          await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
-
-          //const rest = await coll.insertOne({"quote":"This is my quote."});
-          //db.heroes.insertOne({hero:"Joker",name:"Unknown"})
-          let resultOfDb = await coll.insertOne({ hero: "Green Lantern", name: "Hal Jordan" });
-
-          console.log(resultOfDb);
-          let responseObject = {
-            resultOfDb: resultOfDb
-          }
-          res.send(responseObject);
-
-        } catch (err) {
-          console.warn("ERROR: " + err);
-          if (errCallback) errCallback(err);
-        } finally {
-          await cl.close();
-        }
-      }
-      run().catch(console.dir);
-    })
-
-    this.server.get('/mongodb/deleteherogreenlantern', (req, res) => {
+    this.server.get('/mongodb/deleteDrStrange', (req, res) => {
       console.log('delete with GET option')
       async function run() {
         let cl = new MongoClient(connectionstring);
         try {
           await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
+          const dbs = cl.db("heroes");
+          const coll = dbs.collection("hero_powers");
 
           //const rest = await coll.insertOne({"quote":"This is my quote."});
           //db.heroes.insertOne({hero:"Joker",name:"Unknown"})
-          let resultOfDb = await coll.deleteOne({ hero: "Green Lantern" });
+          let resultOfDb = await coll.deleteOne({ name: "Dr. Strange" });
 
           console.log(resultOfDb);
           let responseObject = {
@@ -322,10 +183,10 @@ class ExpressServer {
       run().catch(console.dir);
     })
 
-    this.server.post('/mongodb/addHeroWithPost', (req, res) => {
+    this.server.post('/mongodb/addHero', (req, res) => {
       let tempHero = {
-        hero: req.body.hero,
-        name: req.body.name
+        name: req.body.name,
+        power: req.body.power
       }
 
       console.log(`recieved hero is `);
@@ -335,8 +196,8 @@ class ExpressServer {
         let cl = new MongoClient(connectionstring);
         try {
           await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
+          const dbs = cl.db("heroes");
+          const coll = dbs.collection("hero_powers");
           let resultOfDb = await coll.insertOne(tempHero);
 
           console.log(resultOfDb);
@@ -355,11 +216,11 @@ class ExpressServer {
       run().catch(console.dir);
     })
 
-    this.server.post('/mongodb/updateheroWithPost', (req, res) => {
+    this.server.post('/mongodb/updateHero', (req, res) => {
 
       let tempHero = {
-        hero: req.body.hero,
-        name: req.body.name
+        name: req.body.name,
+        power: req.body.power
       }
 
       console.log(`recieved hero is `);
@@ -369,14 +230,12 @@ class ExpressServer {
         let cl = new MongoClient(connectionstring);
         try {
           await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
+          const dbs = cl.db("heroes");
+          const coll = dbs.collection("hero_powers");
 
-          //const rest = await coll.insertOne({"quote":"This is my quote."});
-          //db.heroes.insertOne({hero:"Joker",name:"Unknown"})
           let resultOfDb = await coll.updateOne(
-            { hero: tempHero.hero },
-            { $set: { name: tempHero.name } }
+            { name: tempHero.name },
+            { $set: { power: tempHero.power } }
           );
 
           console.log(resultOfDb);
@@ -395,54 +254,17 @@ class ExpressServer {
       run().catch(console.dir);
     })
 
-    this.server.delete('/mongodb/deleteherogreenlantern', (req, res) => {
-      console.log('delete with DEL option')
-      async function run() {
-        let cl = new MongoClient(connectionstring);
-        try {
-          await cl.connect();
-          const dbs = cl.db("superheroes");
-          const coll = dbs.collection("heroes");
-
-          //const rest = await coll.insertOne({"quote":"This is my quote."});
-          //db.heroes.insertOne({hero:"Joker",name:"Unknown"})
-          let resultOfDb = await coll.deleteOne({ hero: "Green Lantern" });
-
-          console.log(resultOfDb);
-          let responseObject = {
-            resultOfDb: resultOfDb
-          }
-          res.send(responseObject);
-
-        } catch (err) {
-          console.warn("ERROR: " + err);
-          if (errCallback) errCallback(err);
-        } finally {
-          await cl.close();
-        }
-      }
-      run().catch(console.dir);
-    })
-
-    this.server.post('/deletespecificherowithid', (req, res) => {
+    this.server.post('/deleteHero', (req, res) => {
 
       //first step is get the id from the body
 
       console.log(req.body);
 
-      let tempId = req.body.id;
-
-      //get object id
-
-      //this step is important because
-      //we need to use the ObjectID function from mongo db
-      let tempId2 = new ObjectId(tempId);
-
-      console.log(tempId2);
+      let tempName = req.body.name;
 
       async function run() {
 
-        console.log(`async deletespecificherowithid has started`);
+        console.log(`async deletehero has started`);
 
         let cl = new MongoClient(connectionstring);
 
@@ -454,24 +276,22 @@ class ExpressServer {
 
           //we need to get the database
 
-          let db = cl.db("superheroes");
+          let db = cl.db("heroes");
 
           //we need to get the collection or table
 
-          let collection = db.collection("heroes");
+          let collection = db.collection("hero_powers");
 
           let resultOfDelete = await collection.deleteOne(
             {
-              "_id": tempId2
+              "name": tempName
             });
 
           console.log(resultOfDelete);
 
-          //response object
-
           const responseObject = {
 
-            "msg": "Got a POST request at /deletespecificherowithid",
+            "msg": "Got a POST request at /deleteHero",
 
             "result": resultOfDelete
 
