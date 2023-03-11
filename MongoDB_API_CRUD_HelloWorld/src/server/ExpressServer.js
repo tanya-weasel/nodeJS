@@ -10,7 +10,7 @@ import { MongoClient, ObjectId } from "mongodb";
  */
 //mongodb+srv://monkey:3ClVr3J5HLsuu9w7@cluster0.cckieyd.mongodb.net
 let connectionstring = 'mongodb+srv://monkey:3ClVr3J5HLsuu9w7@cluster0.cckieyd.mongodb.net';
-connectionstring = "mongodb+srv://tanya:Molubirl_01@cluster0.lvm5st0.mongodb.net";
+connectionstring = "mongodb+srv://tanya:jfV4yQMPSrHYXUKN@cluster0.lvm5st0.mongodb.net";
 //let connectionstring = 'mongodb://localhost:27017';
 
 class ExpressServer {
@@ -66,7 +66,7 @@ class ExpressServer {
           const dbs = cl.db("heroes");
           const coll = dbs.collection("hero_names");
 
-          const cur = coll.find({}, {});
+          const cur = coll.find();
 
           let items = [];
           await cur.forEach(function (doc) {
@@ -254,7 +254,7 @@ class ExpressServer {
       run().catch(console.dir);
     })
 
-    this.server.post('/deleteHero', (req, res) => {
+    this.server.post('/mongodb/deleteHero', (req, res) => {
 
       //first step is get the id from the body
 
