@@ -10,7 +10,7 @@ import { MongoClient, ObjectId } from "mongodb";
  */
 //mongodb+srv://monkey:3ClVr3J5HLsuu9w7@cluster0.cckieyd.mongodb.net
 let connectionstring = 'mongodb+srv://monkey:3ClVr3J5HLsuu9w7@cluster0.cckieyd.mongodb.net';
-connectionstring = "mongodb+srv://tanya:Molubirl_01@cluster0.lvm5st0.mongodb.net";
+connectionstring = "mongodb+srv://tanya:pwd@cluster0.lvm5st0.mongodb.net";
 //let connectionstring = 'mongodb://localhost:27017';
 
 class ExpressServer {
